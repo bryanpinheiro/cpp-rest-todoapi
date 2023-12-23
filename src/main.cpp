@@ -1,30 +1,34 @@
 #include "crow_all.h"
+#include "todoroutes.hpp"
 #include <iostream>
 #include <jansson.h>
 
 int main() {
     crow::SimpleApp app;
 
-    // Handler for the root endpoint '/'
-    CROW_ROUTE(app, "/")(
-        [](const crow::request& req, crow::response& res) {
-            // Create a simple JSON object
-            json_t* root = json_object();
-            json_object_set_new(root, "message", json_string("Hello, World!"));
+  auto storage = make_storage("./database/todos.sqlite",
+    make_table("todos",
+      make_column("id", &Todo::id, primary_key().autoincrement()),
+      make_column("title", &Todo::title),
+      make_column("completed", &Todo::completed)));
 
-            // Convert the JSON object to a string
-            char* jsonStr = json_dumps(root, JSON_INDENT(2));
-            json_decref(root);
+    storage.sync_schema();
 
-            // Set the response with JSON content
-            res.set_header("Content-Type", "application/json");
-            res.write(jsonStr);
-            res.end();
+    auto allTodos = storage.get_all<Todo>();
 
-            // Free the allocated JSON string
-            free(jsonStr);
+    if (allTodos.empty()) {
+        std::cout << "Empty list of todos" << std::endl;
+    } else {
+        for (const auto& todo : allTodos) {
+            std::cout << "ID: " << todo.id 
+                      << ", Title: " << todo.title 
+                      << ", Completed: " << todo.completed 
+                      << std::endl;
         }
-    );
+    }
+
+    // Call todo routes
+    setupTodoRoutes(app, storage);
 
     // Start the server on port 8080
     app.port(8080).run();

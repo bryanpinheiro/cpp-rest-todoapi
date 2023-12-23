@@ -22,6 +22,10 @@ include_directories(${ASIO_DIRECTORY})
 # Add your source files (including todo.cpp and todo.hpp)
 add_executable(Main
     src/main.cpp
+    src/todo.cpp
+    src/todoroutes.cpp
+    include/todo.hpp
+    include/todoroutes.hpp
 )
 
 # Include directories for Boost and Crow

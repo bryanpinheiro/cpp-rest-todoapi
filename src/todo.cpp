@@ -1,24 +1,24 @@
 #include "todo.hpp"
 #include <iostream>
 
-int TodoManager::createTodo(storage_t<> dbcontext, string title) 
+int TodoManager::createTodo(MyTodoStorage dbcontext, string title) 
 {
   int newTodoID = dbcontext.insert(Todo{0, title, false});
   return newTodoID;
 }
 
-vector<Todo> TodoManager::getAllTodos(storage_t<> dbcontext) 
+vector<Todo> TodoManager::getAllTodos(MyTodoStorage dbcontext) 
 {
   auto allTodos = dbcontext.get_all<Todo>();
   return allTodos;
 }
 
-Todo TodoManager::getTodoByID(storage_t<> dbcontext, int id)
+Todo TodoManager::getTodoByID(MyTodoStorage dbcontext, int id)
 {
   return dbcontext.get<Todo>(id);
 }
 
-int TodoManager::updateTodoByID(storage_t<> dbcontext, int id, bool completed)
+int TodoManager::updateTodoByID(MyTodoStorage dbcontext, int id, bool completed)
 {
   try
   {
@@ -47,7 +47,7 @@ int TodoManager::updateTodoByID(storage_t<> dbcontext, int id, bool completed)
   }
 }
 
-void TodoManager::deleteTodoByID(storage_t<> dbcontext, int id)
+void TodoManager::deleteTodoByID(MyTodoStorage dbcontext, int id)
 {
   dbcontext.remove<Todo>(id);
 }
