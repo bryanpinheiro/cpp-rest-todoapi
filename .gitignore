@@ -1,0 +1,34 @@
+# Build folders
+/build/
+/CMakeFiles/
+/CMakeCache.txt
+/CMakeScripts/
+/CMakeSettings.json
+/CMakeSettings.json.orig
+
+# Database folder
+/database
+
+# Compiled binaries
+*.exe
+*.out
+*.o
+*.obj
+
+# Ignore local user settings and IDE-specific files
+.vscode/
+*.suo
+*.user
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.pdb
+*.ilk
+
+# Ignore generated files
+compile_commands.json
+*.swp
+*.DS_Store
+
+# Ignore dependency management tools
+/vendor/
